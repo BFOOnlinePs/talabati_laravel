@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class BfoReelsModel extends Model
+{
+    use HasFactory;
+
+    protected $table = 'bfo_reels';
+    protected $fillable =
+    [
+        'reel',
+        'product_id',
+        'store_id',
+    ];
+}

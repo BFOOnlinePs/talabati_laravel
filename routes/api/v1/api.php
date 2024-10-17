@@ -15,7 +15,18 @@ use BeyondCode\LaravelWebSockets\Facades\WebSocketsRouter;
 |
 */
 
+// Route::get('test-api', function () {
+//     return response()->json(['message' => 'API is working fine'], 200);
+// });
+
+
+
 Route::group(['namespace' => 'Api\V1', 'middleware'=>'localization'], function () {
+
+    // Route::get('test-api', function () {
+    //     return response()->json(['message' => 'API is working fine'], 200);
+    // });
+
     Route::group(['prefix' => 'configurations'], function () {
         Route::get('/', 'ExternalConfigurationController@getConfiguration');
         Route::get('/get-external', 'ExternalConfigurationController@getExternalConfiguration');

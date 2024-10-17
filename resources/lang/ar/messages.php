@@ -5761,4 +5761,10 @@
   'Turn_On_push_notification_for' => 'Turn On push notification for',
   'شغل بيتي' => 'شغل بيتي',
   'متاجر' => 'متاجر',
+  'مطاعم' => 'مطاعم',
+  'خضار و فواكة' => 'خضار و فواكة',
+  'سوبرماركت' => 'سوبرماركت',
+  '500_warning_message' => '500 warning message',
+  'reload_page' => 'Reload page',
+  'Reel Added Successfully' => 'Reel Added Successfully',
 );
