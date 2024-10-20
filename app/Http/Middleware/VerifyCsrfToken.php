@@ -30,6 +30,6 @@ class VerifyCsrfToken extends Middleware
         '/paytabs-response',
         '/store-panel/item/food-variation-generate',
         '/store-panel/item/variation-generate',
-        'admin/reel', // Added by Aseel
+        'admin/reels/*', // Added by Aseel
     ];
 }

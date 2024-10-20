@@ -15,9 +15,8 @@ class ReelsController extends Controller
 
     use FileManagerTrait;
 
-    public function addReel(Request $request)
+    public function store(Request $request)
     {
-        return 'h';
         $validator = Validator::make($request->all(), [
             'reel_vid' => 'required',
             'product_id' => 'nullable',

@@ -46,11 +46,13 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::get('test-api', function () {
         return response()->json(['message' => 'API is working fine'], 200);
     });
-        Route::post('addReel', [ReelsController::class, 'addReel']);
+
 
     // Added by Aseel
     Route::group(['prefix' => 'reels'], function () {
         Route::get('/', [ReelsController::class, 'list']);
+        Route::post('store', [ReelsController::class, 'store']);
+
     });
 
 
