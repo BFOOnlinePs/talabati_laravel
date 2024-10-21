@@ -52,6 +52,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'reels'], function () {
         Route::get('/', [ReelsController::class, 'list']);
         Route::post('store', [ReelsController::class, 'store']);
+        Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
 
     });
 

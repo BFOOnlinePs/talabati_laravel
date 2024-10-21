@@ -13,7 +13,7 @@ class BfoReelsModel extends Model
     protected $fillable =
     [
         'reel',
-        'product_id',
+        'item_ids',
         'store_id',
     ];
 }

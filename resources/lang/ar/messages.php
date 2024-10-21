@@ -5777,4 +5777,6 @@
   'coordinates_out_of_zone' => 'Coordinates out of zone',
   'Coordinates out of zone' => 'Coordinates out of zone',
   'successfully_updated' => 'Successfully updated',
+  'خضار وفواكه' => 'خضار وفواكه',
+  'توصيل طرد' => 'توصيل طرد',
 );
