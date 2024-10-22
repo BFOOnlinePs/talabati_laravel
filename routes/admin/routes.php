@@ -39,6 +39,8 @@ use App\Http\Controllers\Admin\Promotion\AdvertisementController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Subscription\SubscriptionController;
 use App\Http\Controllers\BFO\ReelsController;
+use App\Http\Controllers\BFO\StoreReelsController;
+use App\Models\Store;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
@@ -51,8 +53,9 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     // Added by Aseel
     Route::group(['prefix' => 'reels'], function () {
         Route::get('/', [ReelsController::class, 'list']);
-        Route::post('store', [ReelsController::class, 'store']);
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
+
+        Route::post('store', [StoreReelsController::class, 'store']);
 
     });
 

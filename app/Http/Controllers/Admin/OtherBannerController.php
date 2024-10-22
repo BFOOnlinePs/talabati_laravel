@@ -11,6 +11,9 @@ use App\Models\Translation;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Config;
 
+// Aseel
+// may i need this file
+
 class OtherBannerController extends Controller
 {
     function promotional_index()
