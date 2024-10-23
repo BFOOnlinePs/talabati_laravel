@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\DeliveryMan\DeliveryManController;
 use App\Http\Controllers\Admin\Promotion\AdvertisementController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Subscription\SubscriptionController;
+use App\Http\Controllers\BFO\ItemsController;
 use App\Http\Controllers\BFO\ReelsController;
 use App\Http\Controllers\BFO\StoreReelsController;
 use App\Models\Store;
@@ -59,6 +60,12 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     });
 
+    Route::group(['prefix' => 'items'], function () {
+        Route::get('getVendorItems', [ItemsController::class, 'getVendorItems']);
+    });
+
+
+    // not by Aseel
 
     Route::get(Zone::GET_COORDINATES[URI] . '/{id}', [ZoneController::class, 'getCoordinates'])->name('zone.get-coordinates');
     Route::get(Zone::GET_ALL_ZONE_COORDINATES[URI] . '/{id?}', [ZoneController::class, 'getAllZoneCoordinates'])->name('zone.zoneCoordinates');
