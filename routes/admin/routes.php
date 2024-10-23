@@ -52,7 +52,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     // Added by Aseel
     Route::group(['prefix' => 'reels'], function () {
-        Route::get('/', [ReelsController::class, 'list']);
+        // Route::get('/', [ReelsController::class, 'list']);
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
 
         Route::post('store', [StoreReelsController::class, 'store']);

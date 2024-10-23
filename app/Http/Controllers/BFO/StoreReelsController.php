@@ -16,10 +16,11 @@ class StoreReelsController extends Controller
     //addNewReel
     public function store(Request $request)
     {
+        // return 'hi';
         $validator = Validator::make($request->all(), [
             'reel_vid' => 'required',
             'item_ids' => 'required',
-            'store_id' => 'required',
+            'store_id' => 'required', // from auth ???????
         ]);
 
         if ($validator->fails()) {
@@ -32,19 +33,26 @@ class StoreReelsController extends Controller
         $reel = new BfoReelsModel();
 
         $reel->reel = $this->upload('reels/', 'mp4', $request->file('reel_vid'));
-        $reel->product_id = $request->input('item_ids');
+        $reel->item_ids = $request->input('item_ids');
         $reel->store_id = $request->input('store_id');
 
-        if ($reel->save()) {
-            return response()->json([
-                'status' => true,
-                'message' => translate('تم إضافة الريل بنجاح')
-            ], 200);
-        } else {
+        try {
+            if ($reel->save()) {
+                return response()->json([
+                    'status' => true,
+                    'message' => translate('تم إضافة الريل بنجاح')
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => translate('حدث خطأ، يرجى المحاولة لاحقا')
+                ], 403);
+            }
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => translate('حدث خطأ، يرجى المحاولة لاحقا')
-            ], 403);
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 }
