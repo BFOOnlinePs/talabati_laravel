@@ -32,11 +32,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Config;
 use App\Library\Payment as PaymentInfo;
+use App\Models\BfoReelsModel;
 use App\Models\SubscriptionTransaction;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use App\Models\SubscriptionBillingAndRefundHistory;
+use App\Traits\FileManagerTrait;
 
 class VendorController extends Controller
 {
@@ -688,44 +690,6 @@ class VendorController extends Controller
         return response()->json(['message' => translate('messages.you_are_successfully_joined_to_the_campaign')], 200);
     }
 
-
-    // this function added by Aseel
-    public function bfo_get_vendor_items(Request $request)
-    {
-        try {
-            // $limit = $request->limit ? $request->limit : 25;
-            // $offset = $request->offset ? $request->offset : 1;
-            // $type = $request->query('type', 'all');
-            $items = Item::
-                // with('tags')
-                // ->type($type)
-                // ->
-                Approved() // approved by admin
-                ->where('store_id', $request['vendor']->stores[0]->id)
-                ->latest()
-                ->select('id', 'name', 'image')
-                ->get()
-                ->makeHidden(['unit_type', 'unit', 'images_full_url', 'gst_status', 'gst_code', 'cover_photo_full_url', 'meta_image_full_url', 'translations', 'storage']) // Hiding the appended attributes
-            ;
-            // ->paginate($limit, ['*'], 'page', $offset);
-            // $data = [
-            //     // 'total_size' => $paginator->total(),
-            //     // 'limit' => $limit,
-            //     // 'offset' => $offset,
-            //     'items' => Helpers::product_data_formatting($paginator, true, true, app()->getLocale())
-            // ];
-
-            return response()->json([
-                'status' => true,
-                'items' => $items
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
 
     public function get_items(Request $request)
     {

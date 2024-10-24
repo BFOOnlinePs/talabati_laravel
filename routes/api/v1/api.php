@@ -175,7 +175,8 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
         Route::post('request-withdraw', 'VendorController@request_withdraw');
 
         // added by Aseel
-        Route::get('bfo-get-vendor-items', 'VendorController@bfo_get_vendor_items');
+        Route::get('bfo-get-vendor-items', 'BFOController@bfo_get_vendor_items');
+        Route::post('add-reel', 'BFOController@add_reel');
 
         Route::put('send-order-otp', 'VendorController@send_order_otp');
 

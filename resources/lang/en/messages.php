@@ -5771,4 +5771,5 @@
   'Coordinates out of zone' => 'Coordinates out of zone',
   'minimum_delivery_time_should_be_more_than_10_min' => 'Minimum delivery time should be more than 10 min',
   'Minimum delivery time should be more than 10 min' => 'Minimum delivery time should be more than 10 min',
+  'تم إضافة الريل بنجاح' => 'تم إضافة الريل بنجاح',
 );
