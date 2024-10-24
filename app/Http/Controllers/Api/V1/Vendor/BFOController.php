@@ -19,8 +19,10 @@ class BFOController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'reel_vid' => 'required',
-            'item_ids' => 'required',
+            'item_ids' => 'nullable',
             // 'store_id' => 'required', // from middleware
+        ], [
+            'reel_vid.required' => 'يرجى تحميل الريل',
         ]);
 
         if ($validator->fails()) {
@@ -63,17 +65,24 @@ class BFOController extends Controller
     public function bfo_get_vendor_items(Request $request)
     {
         try {
-
             $items = Item::Approved() // approved by admin
                 ->where('store_id', $request['vendor']->stores[0]->id)
                 ->latest()
                 ->select('id', 'name', 'image')
-                ->get()
-                ->makeHidden(['unit_type', 'unit', 'images_full_url', 'gst_status', 'gst_code', 'cover_photo_full_url', 'meta_image_full_url', 'translations', 'storage']); // Hiding the appended attributes
+                ->paginate(10); // Ensure pagination happens here
+
+            // Hide the appended attributes after pagination
+            $items->makeHidden(['unit_type', 'unit', 'images_full_url', 'gst_status', 'gst_code', 'cover_photo_full_url', 'meta_image_full_url', 'translations', 'storage']);
 
             return response()->json([
                 'status' => true,
-                'items' => $items
+                'pagination' => [
+                    'total_pages' => $items->lastPage(),
+                    'current_page' => $items->currentPage(),
+                    'total_count' => $items->total(),
+                    'per_page' => $items->perPage(),
+                ],
+                'items' => $items->items()
             ]);
         } catch (\Exception $e) {
             return response()->json([
