@@ -65,11 +65,18 @@ class BFOController extends Controller
     public function bfo_get_vendor_items(Request $request)
     {
         try {
-            $items = Item::Approved() // approved by admin
+            $query = Item::Approved() // approved by admin
                 ->where('store_id', $request['vendor']->stores[0]->id)
                 ->latest()
-                ->select('id', 'name', 'image')
-                ->paginate(10); // Ensure pagination happens here
+                ->select('id', 'name', 'image');
+
+            if ($request->filled('search')) {
+                $searchTerm = $request->search;
+                $query->where('name', 'LIKE', '%' . $searchTerm . '%');
+            }
+
+            // Paginate the filtered results
+            $items = $query->paginate(10);
 
             // Hide the appended attributes after pagination
             $items->makeHidden(['unit_type', 'unit', 'images_full_url', 'gst_status', 'gst_code', 'cover_photo_full_url', 'meta_image_full_url', 'translations', 'storage']);
