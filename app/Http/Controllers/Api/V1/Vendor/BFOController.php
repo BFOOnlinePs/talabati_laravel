@@ -19,6 +19,7 @@ class BFOController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'reel_vid' => 'required',
+            'thumbnail' => 'required',
             'item_ids' => 'nullable',
             // 'store_id' => 'required', // from middleware
         ], [
@@ -37,6 +38,7 @@ class BFOController extends Controller
         $reel = new BfoReelsModel();
 
         $reel->reel = $this->upload('reels/', 'mp4', $request->file('reel_vid'));
+        $reel->thumbnail = $this->upload('reels/thumbnails/', 'png', $request->file('thumbnail'));
         $reel->item_ids = $request->input('item_ids');
         $reel->store_id = $request['vendor']->stores[0]->id;
 
