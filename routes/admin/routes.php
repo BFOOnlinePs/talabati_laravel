@@ -55,14 +55,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     Route::group(['prefix' => 'reels'], function () {
         // Route::get('/', [ReelsController::class, 'list']);
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
+        Route::get('getReelsThumbnails', [ReelsController::class, 'getReelsThumbnails']);
 
-        Route::post('store', [StoreReelsController::class, 'store']);
+        // Route::post('store', [StoreReelsController::class, 'store']);
 
     });
 
-    Route::group(['prefix' => 'items'], function () {
-        Route::get('getVendorItems', [ItemsController::class, 'getVendorItems']);
-    });
+    // Route::group(['prefix' => 'items'], function () {
+    //     Route::get('getVendorItems', [ItemsController::class, 'getVendorItems']);
+    // });
 
 
     // not by Aseel

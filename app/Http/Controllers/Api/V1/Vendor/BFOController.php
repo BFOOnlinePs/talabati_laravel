@@ -24,6 +24,7 @@ class BFOController extends Controller
             // 'store_id' => 'required', // from middleware
         ], [
             'reel_vid.required' => 'يرجى تحميل الريل',
+            'thumbnail.required' => 'يرجى تحميل الصورة المصغرة',
         ]);
 
         if ($validator->fails()) {
@@ -32,8 +33,6 @@ class BFOController extends Controller
                 'message' => $validator->errors()->first()
             ], 403);
         }
-
-
 
         $reel = new BfoReelsModel();
 
