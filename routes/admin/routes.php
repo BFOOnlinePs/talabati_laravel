@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\DeliveryMan\DeliveryManController;
 use App\Http\Controllers\Admin\Promotion\AdvertisementController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Subscription\SubscriptionController;
+use App\Http\Controllers\BFO\IdriveController;
 use App\Http\Controllers\BFO\ItemsController;
 use App\Http\Controllers\BFO\ReelsController;
 use App\Http\Controllers\BFO\StoreReelsController;
@@ -60,6 +61,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         // Route::post('store', [StoreReelsController::class, 'store']);
 
     });
+
+    // Added by Aseel
+    Route::group(['prefix' => 'idrive'], function () {
+        Route::get('upload', [IdriveController::class, 'upload']);
+        Route::post('uploadVideo', [IdriveController::class, 'uploadVideo']);
+
+    });
+
+
 
     // Route::group(['prefix' => 'items'], function () {
     //     Route::get('getVendorItems', [ItemsController::class, 'getVendorItems']);

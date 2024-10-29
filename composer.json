@@ -22,7 +22,7 @@
         "laravel/passport": "^11.0",
         "laravel/tinker": "^2.5",
         "laravelpkg/laravelchk": "dev-master",
-        "league/flysystem-aws-s3-v3": "^3.0",
+        "league/flysystem-aws-s3-v3": "^3.29",
         "maatwebsite/excel": "^3.1",
         "madnest/madzipper": "*",
         "matanyadaev/laravel-eloquent-spatial": "^3.1",

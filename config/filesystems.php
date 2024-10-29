@@ -33,13 +33,13 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
-            'url' => env('APP_URL').'storage/app',
+            'url' => env('APP_URL') . 'storage/app',
         ],
 
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'storage/public',
+            'url' => env('APP_URL') . 'storage/public',
             'visibility' => 'public',
         ],
 
@@ -51,6 +51,17 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+        ],
+
+        'idrive' => [
+            'driver' => 's3',
+            'key' => env('IDRIVE_API_KEY'),
+            'secret' => env('IDRIVE_API_SECRET'),
+            'region' => env('IDRIVE_REGION'),
+            'bucket' => env('IDRIVE_BUCKET'),
+            'version' => env('IDRIVE_VERSION'),
+            'endpoint' => env('IDRIVE_ENDPOINT'),
+            'use_path_style_endpoint' => true,
         ],
 
     ],

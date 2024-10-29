@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers\BFO;
 
-use App\CentralLogics\Helpers;
 use App\Http\Controllers\Controller;
 use App\Models\BfoReelsModel;
 use App\Models\Item;
 use App\Models\Store;
-use App\Traits\FileManagerTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class ReelsController extends Controller
 {

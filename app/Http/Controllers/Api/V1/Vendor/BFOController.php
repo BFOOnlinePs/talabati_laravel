@@ -7,6 +7,7 @@ use App\Models\BfoReelsModel;
 use App\Models\Item;
 use App\Traits\FileManagerTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 // this Controller added by Aseel
@@ -98,5 +99,26 @@ class BFOController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+
+    // idrive s2
+
+    public function upload_idrive() 
+    {
+        return 'h';
+        $file = Storage::disk('idrive')->put('file2.txt', 'Hello, IDrive!');
+ 
+        return $file;
+    }
+
+    public function uploadVideo(Request $request)
+    {
+        return 'hi';
+        $video = $request->file('video');
+        $fileName = $video->getClientOriginalName();
+        $file = Storage::disk('idrive')->putFileAs('/', $video, $fileName);
+
+        return $file;
     }
 }

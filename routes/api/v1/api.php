@@ -178,6 +178,9 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
         Route::get('bfo-get-vendor-items', 'BFOController@bfo_get_vendor_items');
         Route::post('add-reel', 'BFOController@add_reel');
 
+        Route::get('idrive-upload', 'BFOController@upload_idrive');
+
+
         Route::put('send-order-otp', 'VendorController@send_order_otp');
 
         Route::post('make-collected-cash-payment', 'VendorController@make_payment')->name('make_payment');
