@@ -17,7 +17,7 @@ class ReelsController extends Controller
 
     public function getReelsWithItemIds()
     {
-        $reels = BfoReelsModel::where('item_ids', '!=', null)->orderBy('id', 'desc')->paginate(10);
+        $reels = BfoReelsModel::where('item_ids', '!=', null)->orderBy('id', 'desc')->paginate(15);
 
         // show store name and logo
         $reels->getCollection()->transform(function ($reel) {
