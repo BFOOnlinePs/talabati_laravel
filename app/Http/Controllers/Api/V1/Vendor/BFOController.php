@@ -104,21 +104,24 @@ class BFOController extends Controller
 
     // idrive s2
 
-    public function upload_idrive() 
+    public function idrive_upload()
     {
-        return 'h';
-        $file = Storage::disk('idrive')->put('file2.txt', 'Hello, IDrive!');
- 
+        $file = Storage::disk('idrive')->put('file3.txt', 'Hello, IDrive!');
+
         return $file;
     }
 
-    public function uploadVideo(Request $request)
+    public function upload_video(Request $request)
     {
-        return 'hi';
         $video = $request->file('video');
         $fileName = $video->getClientOriginalName();
+
         $file = Storage::disk('idrive')->putFileAs('/', $video, $fileName);
 
-        return $file;
+        $publicURL = 'talabati-bucket.a2l8.ch.idrivee2-18.com';
+
+        $fileGet = Storage::disk('idrive')->get($fileName);
+
+        return $fileGet;
     }
 }
