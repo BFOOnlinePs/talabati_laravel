@@ -7,6 +7,7 @@ use App\Models\BfoReelsModel;
 use App\Models\Item;
 use App\Traits\FileManagerTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,6 +19,8 @@ class BFOController extends Controller
     // this function added by Aseel
     public function add_reel(Request $request)
     {
+        Log::info('aseel , start');
+
         $validator = Validator::make($request->all(), [
             'reel_vid' => 'required',
             'thumbnail' => 'required',
@@ -36,18 +39,31 @@ class BFOController extends Controller
         }
 
         $reel = new BfoReelsModel();
+        // log to laravel.log file
+        Log::info('aseel , before reel');
 
-        $reel->reel = $this->upload('reels/', 'mp4', $request->file('reel_vid'), 'idrive'); // if you want to not store in idrive, then remove it
-        $reel->thumbnail = $this->upload('reels/thumbnails/', 'png', $request->file('thumbnail'), 'idrive'); // if you want to not store in idrive, then remove it
+        $reel->reel = $this->upload('reels/', 'mp4', $request->file('reel_vid'), 'idrive'); // if you don't want to store in idrive, then remove it
+
+        Log::info('aseel , after reel and before thumbnail');
+
+        $reel->thumbnail = $this->upload('reels/thumbnails/', 'png', $request->file('thumbnail'), 'idrive'); // if you don't want to store in idrive, then remove it
+        Log::info('aseel , after thumbnail');
+
         $reel->item_ids = $request->input('item_ids');
         $reel->store_id = $request['vendor']->stores[0]->id;
 
         try {
+            Log::info('aseel , try');
+
             if ($reel->save()) {
+                Log::info('aseel , save');
+
                 return response()->json([
                     'status' => true,
                     'message' => translate('تم إضافة الريل بنجاح')
                 ], 200);
+                Log::info('aseel , save done');
+
             } else {
                 return response()->json([
                     'status' => false,

@@ -62,12 +62,12 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
     });
 
-    // Added by Aseel
-    Route::group(['prefix' => 'idrive'], function () {
-        Route::get('upload', [IdriveController::class, 'upload']);
-        Route::post('uploadVideo', [IdriveController::class, 'uploadVideo']);
+    // // Added by Aseel
+    // Route::group(['prefix' => 'idrive'], function () {
+    //     Route::get('upload', [IdriveController::class, 'upload']);
+    //     Route::post('uploadVideo', [IdriveController::class, 'uploadVideo']);
 
-    });
+    // });
 
 
 

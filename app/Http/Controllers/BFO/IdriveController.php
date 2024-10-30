@@ -8,20 +8,20 @@ use Illuminate\Support\Facades\Storage;
 
 class IdriveController extends Controller
 {
-    public function upload()
-    {
-        $file = Storage::disk('idrive')->put('file2.txt', 'Hello, IDrive!');
+    // public function upload()
+    // {
+    //     $file = Storage::disk('idrive')->put('file2.txt', 'Hello, IDrive!');
 
-        return $file;
-    }
+    //     return $file;
+    // }
 
-    public function uploadVideo(Request $request)
-    {
-        return 'hi';
-        $video = $request->file('video');
-        $fileName = $video->getClientOriginalName();
-        $file = Storage::disk('idrive')->putFileAs('/', $video, $fileName);
+    // public function uploadVideo(Request $request)
+    // {
+    //     return 'hi';
+    //     $video = $request->file('video');
+    //     $fileName = $video->getClientOriginalName();
+    //     $file = Storage::disk('idrive')->putFileAs('/', $video, $fileName);
 
-        return $file;
-    }
+    //     return $file;
+    // }
 }
