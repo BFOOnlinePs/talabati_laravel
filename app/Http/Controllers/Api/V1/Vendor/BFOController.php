@@ -37,8 +37,8 @@ class BFOController extends Controller
 
         $reel = new BfoReelsModel();
 
-        $reel->reel = $this->upload('reels/', 'mp4', $request->file('reel_vid'));
-        $reel->thumbnail = $this->upload('reels/thumbnails/', 'png', $request->file('thumbnail'));
+        $reel->reel = $this->upload('reels/', 'mp4', $request->file('reel_vid'), 'idrive'); // if you want to not store in idrive, then remove it
+        $reel->thumbnail = $this->upload('reels/thumbnails/', 'png', $request->file('thumbnail'), 'idrive'); // if you want to not store in idrive, then remove it
         $reel->item_ids = $request->input('item_ids');
         $reel->store_id = $request['vendor']->stores[0]->id;
 

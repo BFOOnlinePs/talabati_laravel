@@ -7,15 +7,19 @@ use Illuminate\Support\Facades\Storage;
 
 trait FileManagerTrait
 {
-    public static function upload(string $dir, string $format, $image = null): string
+    // this function edited by Aseel
+    // it could be image or file or video
+    // for local storage and idrive storage
+    // to enable irdrive storage i replaced all self::getDisk() with $disk
+    public static function upload(string $dir, string $format, $image = null, $disk = null): string
     {
         try {
             if ($image != null) {
                 $imageName = Carbon::now()->toDateString() . "-" . uniqid() . "." . $format;
-                if (!Storage::disk(self::getDisk())->exists($dir)) {
-                    Storage::disk(self::getDisk())->makeDirectory($dir);
+                if (!Storage::disk($disk ?? self::getDisk())->exists($dir)) {
+                    Storage::disk($disk ?? self::getDisk())->makeDirectory($dir);
                 }
-                Storage::disk(self::getDisk())->putFileAs($dir, $image, $imageName);
+                Storage::disk($disk ?? self::getDisk())->putFileAs($dir, $image, $imageName);
             } else {
                 $imageName = 'def.png';
             }
@@ -27,7 +31,7 @@ trait FileManagerTrait
 
     public static function updateAndUpload(string $dir, $old_image, string $format, $image = null): mixed
     {
-//        dd(self::getDisk());
+        //        dd(self::getDisk());
         if ($image == null) {
             return $old_image;
         }
@@ -42,8 +46,8 @@ trait FileManagerTrait
 
     public static function getDisk(): string
     {
-        $config=\App\CentralLogics\Helpers::get_business_settings('local_storage');
+        $config = \App\CentralLogics\Helpers::get_business_settings('local_storage');
 
-        return isset($config)?($config==0?'s3':'public'):'public';
+        return isset($config) ? ($config == 0 ? 's3' : 'public') : 'public';
     }
 }
