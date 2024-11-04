@@ -21,6 +21,7 @@ use App\Models\PharmacyItemDetails;
 use App\Http\Controllers\Controller;
 use App\Models\EcommerceItemDetails;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -423,6 +424,9 @@ class ItemController extends Controller
 
     public function get_item($id)
     {
+        Log::info('aseel , get_item ');
+
+
         try {
             $item = Item::withoutGlobalScope('translate')->with('tags')->where('id',$id)
             ->first();

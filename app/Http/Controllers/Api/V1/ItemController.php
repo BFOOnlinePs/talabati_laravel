@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use App\CentralLogics\ProductLogic;
 use App\CentralLogics\CategoryLogic;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -590,7 +591,11 @@ class ItemController extends Controller
 
     public function get_product($id)
     {
+        Log::info('aseel , get_product ' . $id);
         try {
+            Log::info('aseel 1, get_product ' . $id);
+            Log::info('aseel 1, id  ' . $id);
+
 
             $item = Item::withCount('whislists')->with(['tags','nutritions','allergies','reviews','reviews.customer'])->active()
             ->when(config('module.current_module_data'), function($query){
@@ -603,9 +608,17 @@ class ItemController extends Controller
                 $qurey-> where('slug', $id);
             })
             ->first();
+            Log::info('aseel 2, get_product ' . $id);
+            Log::info('aseel 2, item ' . $item);
+
+
             $store = StoreLogic::get_store_details($item->store_id);
+            Log::info('aseel 3, get_product ' . $id);
+
             if($store)
             {
+                Log::info('aseel 4, get_product ' . $id);
+
                 $category_ids = DB::table('items')
                 ->join('categories', 'items.category_id', '=', 'categories.id')
                 ->selectRaw('categories.position as positions, IF((categories.position = "0"), categories.id, categories.parent_id) as categories')
@@ -614,15 +627,25 @@ class ItemController extends Controller
                 ->groupBy('categories','positions')
                 ->get();
 
+                Log::info('aseel 5, get_product ' . $id);
+
                 $store = Helpers::store_data_formatting($store);
                 $store['category_ids'] = array_map('intval', $category_ids->pluck('categories')->toArray());
                 $store['category_details'] = Category::whereIn('id',$store['category_ids'])->get();
                 $store['price_range']  = Item::withoutGlobalScopes()->where('store_id', $item->store_id)
                 ->select(DB::raw('MIN(price) AS min_price, MAX(price) AS max_price'))
                 ->get(['min_price','max_price'])->toArray();
+
+                Log::info('aseel 6, get_product ' . $id);
+
             }
+            Log::info('aseel 7, get_product ' . $id);
+
             $item = Helpers::product_data_formatting($item, false, false, app()->getLocale());
             $item['store_details'] = $store;
+
+            Log::info('aseel 8, get_product ' . $id);
+
             return response()->json($item, 200);
         } catch (\Exception $e) {
             return response()->json([
