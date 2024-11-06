@@ -24,7 +24,7 @@ class BFOController extends Controller
         $validator = Validator::make($request->all(), [
             'reel_vid' => 'required',
             'thumbnail' => 'required',
-            'item_ids' => 'nullable',
+            'item_ids' => 'required',
             // 'store_id' => 'required', // from middleware
         ], [
             'reel_vid.required' => 'يرجى تحميل الريل',
@@ -63,7 +63,6 @@ class BFOController extends Controller
                     'message' => translate('تم إضافة الريل بنجاح')
                 ], 200);
                 Log::info('aseel , save done');
-
             } else {
                 return response()->json([
                     'status' => false,
@@ -78,6 +77,49 @@ class BFOController extends Controller
         }
     }
 
+    // for edit the items
+    public function edit_reel(Request $request)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'reel_id' => 'required',
+            'item_ids' => 'required',
+        ],);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ], 403);
+        }
+
+        $reel = BfoReelsModel::where('id', $request->reel_id)->first();
+        $reel->item_ids = $request->input('item_ids');
+
+        try {
+            Log::info('aseel , try');
+
+            if ($reel->save()) {
+                Log::info('aseel , save');
+
+                return response()->json([
+                    'status' => true,
+                    'message' => translate('تم تعديل الريل بنجاح')
+                ], 200);
+                Log::info('aseel , save done');
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => translate('حدث خطأ، يرجى المحاولة لاحقا')
+                ], 403);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 
     // this function added by Aseel
     public function bfo_get_vendor_items(Request $request)
@@ -115,6 +157,23 @@ class BFOController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+
+    public function get_vendor_reels(Request $request)
+    {
+        $reels = BfoReelsModel::where('store_id', $request['vendor']->stores[0]->id)->paginate(8);
+
+        return response()->json([
+            'status' => true,
+            'pagination' => [
+                'total_pages' => $reels->lastPage(),
+                'current_page' => $reels->currentPage(),
+                'total_count' => $reels->total(),
+                'per_page' => $reels->perPage(),
+            ],
+            'reels' => $reels->values()
+        ]);
     }
 
 

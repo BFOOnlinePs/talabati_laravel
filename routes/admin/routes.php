@@ -38,11 +38,7 @@ use App\Http\Controllers\Admin\DeliveryMan\DeliveryManController;
 use App\Http\Controllers\Admin\Promotion\AdvertisementController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Subscription\SubscriptionController;
-use App\Http\Controllers\BFO\IdriveController;
-use App\Http\Controllers\BFO\ItemsController;
 use App\Http\Controllers\BFO\ReelsController;
-use App\Http\Controllers\BFO\StoreReelsController;
-use App\Models\Store;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
@@ -58,8 +54,8 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
         Route::get('getReelsThumbnails', [ReelsController::class, 'getReelsThumbnails']);
 
-        // Route::post('store', [StoreReelsController::class, 'store']);
 
+        // Route::post('store', [StoreReelsController::class, 'store']);
     });
 
     // // Added by Aseel
