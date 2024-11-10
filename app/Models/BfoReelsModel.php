@@ -22,4 +22,9 @@ class BfoReelsModel extends Model
     {
         return $this->belongsTo(Store::class, 'store_id');
     }
+
+    public function views()
+    {
+        return $this->hasMany(BfoReelsViewsModel::class);
+    }
 }
