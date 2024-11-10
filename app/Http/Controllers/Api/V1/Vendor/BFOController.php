@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Vendor;
 use App\Http\Controllers\Controller;
 use App\Models\BfoReelsModel;
 use App\Models\Item;
+use App\Models\Store;
 use App\Traits\FileManagerTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -121,14 +122,59 @@ class BFOController extends Controller
         }
     }
 
+    public function delete_reel($id)
+    {
+        $reel = BfoReelsModel::find($id);
+        if (!$reel) {
+            return response()->json([
+                'status' => false,
+                'message' => 'الريل غير موجود'
+            ]);
+        }
+
+        // if (
+        $this->deleteFile('reels/thumbnails/', $reel->thumbnail, 'idrive');
+        // &&
+        $this->deleteFile('reels/', $reel->reel, 'idrive');
+        // ) {
+        $reel->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم حذف الريل بنجاح'
+        ]);
+        // } else {
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'حدث خطأ، يرجى المحاولة لاحقا'
+        //     ]);
+        // }
+    }
+
     // this function added by Aseel
     public function bfo_get_vendor_items(Request $request)
     {
+        // Check if reel_id is provided and retrieve selected item IDs if it exists
+        $selectedItemIds = [];
+        if ($request->filled('reel_id')) {
+            $reel = BfoReelsModel::find($request->reel_id);
+            if ($reel) {
+                $selectedItemIds = json_decode($reel->item_ids, true) ?: [];
+            }
+        }
+
         try {
             $query = Item::Approved() // approved by admin
                 ->where('store_id', $request['vendor']->stores[0]->id)
-                ->latest()
                 ->select('id', 'name', 'image');
+
+            // Apply ordering based on selected items only if there are selected items
+            if (!empty($selectedItemIds)) {
+                $query->orderByRaw("FIELD(id, " . implode(',', $selectedItemIds) . ") DESC");
+            }
+
+            // Always order by latest as a fallback
+            $query->latest();
 
             if ($request->filled('search')) {
                 $searchTerm = $request->search;
@@ -162,17 +208,41 @@ class BFOController extends Controller
 
     public function get_vendor_reels(Request $request)
     {
-        $reels = BfoReelsModel::where('store_id', $request['vendor']->stores[0]->id)->paginate(8);
+        $store_id = $request['vendor']->stores[0]->id;
+        $reels = BfoReelsModel::where('store_id', $store_id)
+            ->orderBy('id', 'desc')
+            // ->paginate(12);
+            ->get();
+
+        $reels->transform(function ($reel) use ($store_id)  {
+            // Fetch only the id, name, and logo of the store
+            $reel->store = Store::where('id', $store_id )
+                ->select('id', 'name', 'logo') // Select only the necessary fields
+                ->first()
+                ->makeHidden(['gst_status', 'gst_code', 'cover_photo_full_url', 'meta_image_full_url', 'translations', 'storage']); // Hiding the appended attributes
+
+            // get the items objects from the json filed
+            $reel->items = json_decode($reel->item_ids, true);
+
+            // get the item object - id, image, price
+            $reel->items = Item::whereIn('id', $reel->items)
+                ->select('id', 'image', 'price') // Select only the necessary fields
+                ->get()
+                ->makeHidden(['unit_type', 'images_full_url', 'unit', 'translations', 'storage']); // Hiding the appended attributes
+
+            return $reel;
+        });
 
         return response()->json([
             'status' => true,
-            'pagination' => [
-                'total_pages' => $reels->lastPage(),
-                'current_page' => $reels->currentPage(),
-                'total_count' => $reels->total(),
-                'per_page' => $reels->perPage(),
-            ],
-            'reels' => $reels->values()
+            // 'pagination' => [
+            //     'total_pages' => $reels->lastPage(),
+            //     'current_page' => $reels->currentPage(),
+            //     'total_count' => $reels->total(),
+            //     'per_page' => $reels->perPage(),
+            // ],
+            // 'reels' => $reels->values()
+            'reels' => $reels
         ]);
     }
 
