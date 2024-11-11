@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Store;
 use App\Traits\FileManagerTrait;
 use Illuminate\Http\Request;
+use App\Services\BfoReelsService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Validator;
 class BFOController extends Controller
 {
     use FileManagerTrait;
+
+    public function __construct(
+        protected BfoReelsService $bfoReelsService
+    ) {}
 
     // this function added by Aseel
     public function add_reel(Request $request)
@@ -205,7 +210,6 @@ class BFOController extends Controller
         }
     }
 
-
     public function get_vendor_reels(Request $request)
     {
         $store_id = $request['vendor']->stores[0]->id;
@@ -215,18 +219,18 @@ class BFOController extends Controller
             ->get();
 
         $reels->transform(function ($reel) use ($store_id)  {
+            $reel->view_count = $this->bfoReelsService->getViewCount($reel->id);
+
             // Fetch only the id, name, and logo of the store
             $reel->store = Store::where('id', $store_id )
-                ->select('id', 'name', 'logo') // Select only the necessary fields
+                ->select('id', 'name', 'logo')
                 ->first()
                 ->makeHidden(['gst_status', 'gst_code', 'cover_photo_full_url', 'meta_image_full_url', 'translations', 'storage']); // Hiding the appended attributes
 
-            // get the items objects from the json filed
             $reel->items = json_decode($reel->item_ids, true);
 
-            // get the item object - id, image, price
             $reel->items = Item::whereIn('id', $reel->items)
-                ->select('id', 'image', 'price') // Select only the necessary fields
+                ->select('id', 'image', 'price')
                 ->get()
                 ->makeHidden(['unit_type', 'images_full_url', 'unit', 'translations', 'storage']); // Hiding the appended attributes
 
