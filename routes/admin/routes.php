@@ -39,6 +39,7 @@ use App\Http\Controllers\Admin\Promotion\AdvertisementController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Subscription\SubscriptionController;
 use App\Http\Controllers\BFO\ReelsController;
+use App\Http\Controllers\BFO\ReelViewsController;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
@@ -54,6 +55,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         // Route::get('/', [ReelsController::class, 'list']);
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
         Route::get('getReelsThumbnails', [ReelsController::class, 'getReelsThumbnails']);
+        Route::post('track-view', [ReelViewsController::class, 'trackReelView']);
 
 
         // Route::post('store', [StoreReelsController::class, 'store']);

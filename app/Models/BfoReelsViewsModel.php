@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BfoReelsViewsModel extends Model
 {
     use HasFactory;
-
+    protected $table = 'bfo_reels_views';
     protected $fillable = ['reel_id', 'user_identifier'];
 
     // Define the relationship to the Video model

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ReelViewsController extends Controller
 {
-    public function trackView(Request $request)
+    public function trackReelView(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'reel_id' => 'required|integer|exists:bfo_reels,id',
@@ -23,8 +23,8 @@ class ReelViewsController extends Controller
             ], 403);
         }
 
-        $reelId = $request->input['reel_id'];
-        $userIdentifier = $request->input['user_identifier'];
+        $reelId = $request->input('reel_id');
+        $userIdentifier = $request->input('user_identifier');
 
         // Check if a view already exists for this user and video
         $viewExists = BfoReelsViewsModel::where('reel_id', $reelId)
@@ -33,12 +33,14 @@ class ReelViewsController extends Controller
 
         if (!$viewExists) {
             // Create a new view record if not exists
-            BfoReelsViewsModel::create([
-                'reel_id' => $reelId,
-                'user_identifier' => $userIdentifier,
-            ]);
+           $newView = new BfoReelsViewsModel();
+           $newView->reel_id = $reelId;
+           $newView->user_identifier = $userIdentifier;
+           $newView->save();
+
+           return response()->json(['success' => true, 'message' => 'View recorded successfully'], 200);
         }
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true, 'message' => 'View already recorded'], 200);
     }
 }
