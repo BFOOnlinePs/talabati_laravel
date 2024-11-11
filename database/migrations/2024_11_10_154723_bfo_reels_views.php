@@ -14,13 +14,10 @@ return new class extends Migration
         Schema::create('bfo_reels_views', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('reel_id'); // Make sure it matches the primary key type of 'reels'
-            $table->string('user_identifier'); // generated ID
+            $table->string('user_identifier');
             $table->timestamps();
 
-            // Define the foreign key constraint
             $table->foreign('reel_id')->references('id')->on('bfo_reels')->onDelete('cascade');
-
-            // Unique constraint to ensure one view per user per video
             $table->unique(['reel_id', 'user_identifier']);
         });
     }
