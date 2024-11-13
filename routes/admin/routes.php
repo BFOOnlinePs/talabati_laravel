@@ -56,6 +56,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
         Route::get('getReelsThumbnails', [ReelsController::class, 'getReelsThumbnails']);
         Route::post('track-view', [ReelViewsController::class, 'trackReelView']);
+        Route::post('track-multiple-reel-views', [ReelViewsController::class, 'trackMultipleReelViews']);
 
 
         // Route::post('store', [StoreReelsController::class, 'store']);
