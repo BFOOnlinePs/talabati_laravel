@@ -8,12 +8,14 @@ use App\Models\Category;
 use App\Models\PriorityList;
 use App\Models\FlashSaleItem;
 use App\Models\BusinessSetting;
-
+use Illuminate\Support\Facades\Log;
 
 class ProductLogic
 {
     public static function get_product($id)
     {
+        Log::info('aseel , get_product in Item' . $id); 
+        
         return Item::active()
         ->when(config('module.current_module_data'), function($query){
             $query->module(config('module.current_module_data')['id']);
