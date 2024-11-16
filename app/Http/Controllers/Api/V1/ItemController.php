@@ -604,6 +604,7 @@ class ItemController extends Controller
 
             Log::info('After casting, ID: ' . $id . ' | Type: ' . gettype($id));
 
+            // edits
             $item = Item::withCount('whislists')->with(['tags', 'nutritions', 'allergies', 'reviews', 'reviews.customer'])->active()
                 ->when(config('module.current_module_data'), function ($query) {
                     $query->module(config('module.current_module_data')['id']);
