@@ -426,7 +426,6 @@ class ItemController extends Controller
     {
         Log::info('aseel , get_item ');
 
-
         try {
             $item = Item::withoutGlobalScope('translate')->with('tags')->where('id',$id)
             ->first();

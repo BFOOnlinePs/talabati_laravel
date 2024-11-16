@@ -16,4 +16,15 @@ class BfoReelsModel extends Model
         'item_ids',
         'store_id',
     ];
+
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id');
+    }
+
+    public function views()
+    {
+        return $this->hasMany(BfoReelsViewsModel::class);
+    }
 }

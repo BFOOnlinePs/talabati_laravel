@@ -99,6 +99,7 @@ class Item extends Model
                     });
             });
     }
+
     public function scopePopular($query)
     {
         return $query->orderBy('order_count', 'desc');

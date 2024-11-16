@@ -175,12 +175,17 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
         Route::post('request-withdraw', 'VendorController@request_withdraw');
 
         // added by Aseel
-        Route::get('bfo-get-vendor-items', 'BFOController@bfo_get_vendor_items');
+        // for Store App
+        Route::post('bfo-get-vendor-items', 'BFOController@bfo_get_vendor_items');
         Route::post('add-reel', 'BFOController@add_reel');
+        Route::post('edit-reel', 'BFOController@edit_reel');
+        Route::delete('reel/{id}', 'BFOController@delete_reel');
+        Route::get('get-vendor-reels', 'BFOController@get_vendor_reels');
 
         Route::get('idrive-upload', 'BFOController@idrive_upload');
         Route::post('idrive-upload-video', 'BFOController@upload_video');
 
+        //
 
         Route::put('send-order-otp', 'VendorController@send_order_otp');
 

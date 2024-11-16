@@ -262,7 +262,7 @@ class ConfigController extends Controller
             'schedule_order_slot_duration' => (int)$settings['schedule_order_slot_duration'],
             'digit_after_decimal_point' => (int)config('round_up_to_digit'),
             'module_config' => config('module'),
-            'module' => $module,
+            'module' => $module, 
             'parcel_per_km_shipping_charge' => (float)$settings['parcel_per_km_shipping_charge'],
             'parcel_minimum_shipping_charge' => (float)$settings['parcel_minimum_shipping_charge'],
 //            'landing_page_settings'=> isset($settings['web_app_landing_page_settings'])?json_decode($settings['web_app_landing_page_settings'], true):null,
