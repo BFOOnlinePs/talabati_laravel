@@ -594,7 +594,7 @@ class ItemController extends Controller
             Log::info('aseel 1, id  ' . $id);
 
             Log::info('aseel is_numeric($id) ' . is_numeric($id));
-            Log::info('Current module ID from config: ' . config('module.current_module_data')['id']);
+            // Log::info('Current module ID from config: ' . config('module.current_module_data')['id']);
 
             // \DB::enableQueryLog();
             Log::info('Product ID or Slug: ' . $id . ' | Type: ' . gettype($id));
@@ -605,9 +605,9 @@ class ItemController extends Controller
             Log::info('After casting, ID: ' . $id . ' | Type: ' . gettype($id));
 
             $item = Item::withCount('whislists')->with(['tags', 'nutritions', 'allergies', 'reviews', 'reviews.customer'])->active()
-                // ->when(config('module.current_module_data'), function ($query) {
-                //     $query->module(config('module.current_module_data')['id']);
-                // })
+                ->when(config('module.current_module_data'), function ($query) {
+                    $query->module(config('module.current_module_data')['id']);
+                })
                 ->when(is_numeric($id), function ($qurey) use ($id) {
                     $qurey->where('id', $id);
                 })

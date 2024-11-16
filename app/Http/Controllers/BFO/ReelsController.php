@@ -35,7 +35,7 @@ class ReelsController extends Controller
             $reel->view_count = $this->bfoReelsService->getViewCount($reel->id);
 
             $reel->store = Store::where('id', $reel->store_id)
-                ->select('id', 'name', 'logo')
+                ->select('id', 'name', 'logo', 'module_id')
                 ->first()
                 ->makeHidden(['gst_status', 'gst_code', 'cover_photo_full_url', 'meta_image_full_url', 'translations', 'storage']); // Hiding the appended attributes
 
