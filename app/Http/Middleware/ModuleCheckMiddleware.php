@@ -37,20 +37,24 @@ class ModuleCheckMiddleware
         }
 
         // Check header request and determine localization
-        if (!$request->hasHeader('moduleId')) {
-            $errors = [];
-            array_push($errors, ['code' => 'moduleId', 'message' => translate('messages.module_id_required')]);
-            return response()->json([
-                'errors' => $errors
-            ], 403);
-        }
+        /// commented by Aseel
+        // if (!$request->hasHeader('moduleId')) {
+        //     $errors = [];
+        //     array_push($errors, ['code' => 'moduleId', 'message' => translate('messages.module_id_required')]);
+        //     return response()->json([
+        //         'errors' => $errors
+        //     ], 403);
+        // }
         $module = Module::find($request->header('moduleId'));
         if (!$module) {
-            $errors = [];
-            array_push($errors, ['code' => 'moduleId', 'message' => translate('messages.not_found')]);
-            return response()->json([
-                'errors' => $errors
-            ], 403);
+            /// added by aseel
+            Config::set('module.current_module_data', null);
+            /// commented by Aseel
+            // $errors = [];
+            // array_push($errors, ['code' => 'moduleId', 'message' => translate('messages.not_found')]);
+            // return response()->json([
+            //     'errors' => $errors
+            // ], 403);
         }
         Config::set('module.current_module_data', $module);
         return $next($request);
