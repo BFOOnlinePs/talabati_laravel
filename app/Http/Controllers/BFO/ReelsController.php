@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Store;
 use App\Services\BfoReelsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReelsController extends Controller
 {
@@ -18,6 +19,15 @@ class ReelsController extends Controller
     public function getReelsWithItemIds(Request $request)
     {
         $reels = BfoReelsModel::whereNotNull('item_ids');
+
+        if ($request->hasHeader('zoneId')) {
+            Log::info('aseel request has zoneId header');
+            $reels->whereHas('store', function ($query) use ($request) {
+                $query->where('zone_id', $request->header('zoneId'));
+            });
+        } else {
+            Log::info('aseel request has no zoneId header');
+        }
 
         if ($request->has('store_id')) {
             $reels->where('store_id', $request->store_id);
@@ -67,6 +77,15 @@ class ReelsController extends Controller
     {
         $reels = BfoReelsModel::whereNotNull('item_ids');
 
+        if ($request->hasHeader('zoneId')) {
+            Log::info('aseel request has zoneId header');
+            $reels->whereHas('store', function ($query) use ($request) {
+                $query->where('zone_id', $request->header('zoneId'));
+            });
+        } else {
+            Log::info('aseel request has no zoneId header');
+        }
+
         if ($request->has('store_id')) {
             $reels->where('store_id', $request->store_id);
         }
@@ -76,6 +95,7 @@ class ReelsController extends Controller
                 $query->where('module_id', $request->query('module_id'));
             });
         }
+
 
         // get last 5 reels
         $reels = $reels->orderBy('id', 'desc')->limit(5)->get();
