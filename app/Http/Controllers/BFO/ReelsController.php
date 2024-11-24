@@ -8,6 +8,7 @@ use App\Models\Item;
 use App\Models\Store;
 use App\Services\BfoReelsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ReelsController extends Controller
 {
@@ -19,12 +20,15 @@ class ReelsController extends Controller
     {
         $reels = BfoReelsModel::whereNotNull('item_ids');
 
-        if ($request->has('zone_id')) {
+        if ($request->hasHeader('zoneId')) {
+            Log::info('aseel request has zoneId header');
             $reels->whereHas('store', function ($query) use ($request) {
-                $query->where('zone_id', $request->zone_id);
+                $query->where('zone_id', $request->header('zoneId'));
             });
+        } else {
+            Log::info('aseel request has no zoneId header');
         }
-        
+
         if ($request->has('store_id')) {
             $reels->where('store_id', $request->store_id);
         }
@@ -73,10 +77,13 @@ class ReelsController extends Controller
     {
         $reels = BfoReelsModel::whereNotNull('item_ids');
 
-        if ($request->has('zone_id')) {
+        if ($request->hasHeader('zoneId')) {
+            Log::info('aseel request has zoneId header');
             $reels->whereHas('store', function ($query) use ($request) {
-                $query->where('zone_id', $request->zone_id);
+                $query->where('zone_id', $request->header('zoneId'));
             });
+        } else {
+            Log::info('aseel request has no zoneId header');
         }
 
         if ($request->has('store_id')) {
