@@ -52,29 +52,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     // Added by Aseel
     // for User App
     Route::group(['prefix' => 'reels'], function () {
-        // Route::get('/', [ReelsController::class, 'list']);
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
         Route::get('getReelsThumbnails', [ReelsController::class, 'getReelsThumbnails']);
-        Route::post('track-view', [ReelViewsController::class, 'trackReelView']);
+        Route::post('track-view', [ReelViewsController::class, 'trackReelView']); // not used anymore
         Route::post('track-multiple-reel-views', [ReelViewsController::class, 'trackMultipleReelViews']);
-
-
-        // Route::post('store', [StoreReelsController::class, 'store']);
     });
-
-    // // Added by Aseel
-    // Route::group(['prefix' => 'idrive'], function () {
-    //     Route::get('upload', [IdriveController::class, 'upload']);
-    //     Route::post('uploadVideo', [IdriveController::class, 'uploadVideo']);
-
-    // });
-
-
-
-    // Route::group(['prefix' => 'items'], function () {
-    //     Route::get('getVendorItems', [ItemsController::class, 'getVendorItems']);
-    // });
-
 
     // not by Aseel
 

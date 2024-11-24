@@ -19,6 +19,12 @@ class ReelsController extends Controller
     {
         $reels = BfoReelsModel::whereNotNull('item_ids');
 
+        if ($request->has('zone_id')) {
+            $reels->whereHas('store', function ($query) use ($request) {
+                $query->where('zone_id', $request->zone_id);
+            });
+        }
+        
         if ($request->has('store_id')) {
             $reels->where('store_id', $request->store_id);
         }
@@ -67,6 +73,12 @@ class ReelsController extends Controller
     {
         $reels = BfoReelsModel::whereNotNull('item_ids');
 
+        if ($request->has('zone_id')) {
+            $reels->whereHas('store', function ($query) use ($request) {
+                $query->where('zone_id', $request->zone_id);
+            });
+        }
+
         if ($request->has('store_id')) {
             $reels->where('store_id', $request->store_id);
         }
@@ -76,6 +88,7 @@ class ReelsController extends Controller
                 $query->where('module_id', $request->query('module_id'));
             });
         }
+
 
         // get last 5 reels
         $reels = $reels->orderBy('id', 'desc')->limit(5)->get();

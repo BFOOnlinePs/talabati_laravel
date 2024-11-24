@@ -184,7 +184,6 @@ Route::group(['namespace' => 'Api\V1', 'middleware' => 'localization'], function
 
         Route::get('idrive-upload', 'BFOController@idrive_upload');
         Route::post('idrive-upload-video', 'BFOController@upload_video');
-
         //
 
         Route::put('send-order-otp', 'VendorController@send_order_otp');
