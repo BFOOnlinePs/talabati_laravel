@@ -190,7 +190,7 @@ class StoreLogic
             ->with(['discount' => function ($q) {
                 return $q->validate();
             }])
-            ->when(config('module.current_module_data'), function ($query) use ($zone_id) {
+            ->when(true, function ($query) use ($zone_id) {
                 // edited by Aseel
                 $currentModule = config('module.current_module_data');
                 // If the module exists, apply module-specific logic
