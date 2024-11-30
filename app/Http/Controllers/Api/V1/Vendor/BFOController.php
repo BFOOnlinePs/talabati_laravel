@@ -22,7 +22,6 @@ class BFOController extends Controller
         protected BfoReelsService $bfoReelsService
     ) {}
 
-    // this function added by Aseel
     public function add_reel(Request $request)
     {
         Log::info('aseel , start');

@@ -38,18 +38,14 @@ use App\Http\Controllers\Admin\DeliveryMan\DeliveryManController;
 use App\Http\Controllers\Admin\Promotion\AdvertisementController;
 use App\Http\Controllers\Admin\Notification\NotificationController;
 use App\Http\Controllers\Admin\Subscription\SubscriptionController;
+use App\Http\Controllers\BFO\InfluencerController;
 use App\Http\Controllers\BFO\ReelsController;
 use App\Http\Controllers\BFO\ReelViewsController;
+use App\Http\Controllers\BFO\StoresController;
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
 
-    // Added by Aseel
-    Route::get('test-api', function () {
-        return response()->json(['message' => 'API is working fine'], 200);
-    });
-
-
-    // Added by Aseel
+    /// Added by Aseel
     // for User App
     Route::group(['prefix' => 'reels'], function () {
         Route::get('getReelsWithItemIds', [ReelsController::class, 'getReelsWithItemIds']);
@@ -58,7 +54,16 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::post('track-multiple-reel-views', [ReelViewsController::class, 'trackMultipleReelViews']);
     });
 
-    // not by Aseel
+    Route::group(['prefix' => 'influencer'], function () {
+        Route::post('influencer-request', [InfluencerController::class, 'influencerRequest']);
+        Route::post('add-reel', [InfluencerController::class, 'addReel']);
+    });
+
+    Route::group(['prefix' => 'bfo'], function () {
+        Route::get('stores', [StoresController::class, 'getAllStores']);
+    });
+
+    ///
 
     Route::get(Zone::GET_COORDINATES[URI] . '/{id}', [ZoneController::class, 'getCoordinates'])->name('zone.get-coordinates');
     Route::get(Zone::GET_ALL_ZONE_COORDINATES[URI] . '/{id?}', [ZoneController::class, 'getAllZoneCoordinates'])->name('zone.zoneCoordinates');

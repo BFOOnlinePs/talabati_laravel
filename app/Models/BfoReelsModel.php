@@ -15,6 +15,9 @@ class BfoReelsModel extends Model
         'reel',
         'item_ids',
         'store_id',
+        'thumbnail',
+        'influencer_id',
+        'status',
     ];
 
 
