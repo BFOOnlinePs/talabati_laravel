@@ -31,6 +31,7 @@ class VerifyCsrfToken extends Middleware
         '/store-panel/item/food-variation-generate',
         '/store-panel/item/variation-generate',
         'admin/reels/*', // Added by Aseel
+        'admin/bfo/*', // added by Aseel
         'admin/influencer/*', // added by Aseel
     ];
 }

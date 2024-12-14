@@ -55,14 +55,15 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
     });
 
     Route::group(['prefix' => 'influencer'], function () {
+        Route::get('get-influencers', [InfluencerController::class, 'getInfluencers']);
         Route::post('influencer-request', [InfluencerController::class, 'influencerRequest']);
         Route::post('add-reel', [InfluencerController::class, 'addReel']);
     });
 
     Route::group(['prefix' => 'bfo'], function () {
         Route::get('stores', [StoresController::class, 'getAllStores']);
+        Route::post('store-items', [StoresController::class, 'getStoreItems']);
     });
-
     ///
 
     Route::get(Zone::GET_COORDINATES[URI] . '/{id}', [ZoneController::class, 'getCoordinates'])->name('zone.get-coordinates');

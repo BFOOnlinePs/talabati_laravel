@@ -5,7 +5,7 @@ namespace App\Http\Controllers\BFO;
 use App\Http\Controllers\Controller;
 use App\Models\BfoReelsModel;
 use App\Models\User;
-use App\Services\BfoReelsService;
+// use App\Services\BfoReelsService;
 use App\Traits\FileManagerTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,17 +15,31 @@ class InfluencerController extends Controller
 {
     use FileManagerTrait;
 
-    public function __construct(
-        protected BfoReelsService $bfoReelsService
-    ) {}
+    // public function __construct(
+    //     protected BfoReelsService $bfoReelsService
+    // ) {}
 
-    public function influencerRequest(Request $request){
+    public function getInfluencers()
+    {
+        $influencers = User::where('bfo_is_influencer', 1)
+            ->select('id', 'bfo_display_name', 'image')
+            ->get()
+            ->makeHidden(['storage']);
+
+        return response()->json([
+            'success' => true,
+            'influencers' => $influencers
+        ], 200);
+    }
+
+    public function influencerRequest(Request $request)
+    {
         $validator = Validator::make(request()->all(), [
             'user_id' => 'required|exists:users,id',
             'display_name' => 'required|string',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => $validator->errors()->first()
@@ -42,7 +56,7 @@ class InfluencerController extends Controller
         $user->bfo_is_influencer = 0; // new request
         $user->bfo_display_name = $request->input('display_name');
 
-        if($user->save()){
+        if ($user->save()) {
             return response()->json([
                 'success' => true,
                 'message' => 'تم إرسال الطلب بنجاح'
@@ -53,7 +67,6 @@ class InfluencerController extends Controller
                 'message' => 'حدث خطأ ما'
             ], 403);
         }
-
     }
 
     public function addReel(Request $request)
@@ -81,7 +94,7 @@ class InfluencerController extends Controller
         $influencer_id = $request->input('influencer_id');
         $user = User::find($influencer_id);
 
-        if($user->bfo_is_influencer  != 1){ // not accepted
+        if ($user->bfo_is_influencer  != 1) { // not accepted
             return response()->json([
                 'status' => false,
                 'message' => 'يجب أن تكون مؤثر حتى تستطيع رفع ريل'
