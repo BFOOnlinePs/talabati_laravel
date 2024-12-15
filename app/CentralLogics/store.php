@@ -175,7 +175,7 @@ class StoreLogic
         ];
     }
 
-    public static function get_latest_stores($zone_id, $limit = 50, $offset = 1, $type = 'all', $longitude = 0, $latitude = 0)
+    public static function get_latest_stores($zone_id, $limit = 20, $offset = 1, $type = 'all', $longitude = 0, $latitude = 0)
     {
         Log::info("aseel zone_id " . $zone_id);
         $latest_stores_default_status = BusinessSetting::where('key', 'latest_stores_default_status')->first()?->value ?? 1;
@@ -257,11 +257,11 @@ class StoreLogic
         }
 
 
-        $paginator = $query->paginate($limit ?? 50, ['*'], 'page', $offset ?? 1);
+        $paginator = $query->paginate($limit ?? 20, ['*'], 'page', $offset ?? 1);
 
         return [
             'total_size' => $paginator->total(),
-            'limit' => $limit ?? 50,
+            'limit' => $limit ?? 20,
             'offset' => $offset ?? 1,
             'stores' => $paginator->items()
         ];

@@ -18,7 +18,7 @@ class ReelsController extends Controller
 
     public function getReelsWithItemIds(Request $request)
     {
-        $reels = BfoReelsModel::whereNotNull('item_ids');
+        $reels = BfoReelsModel::whereNotNull('item_ids')->where('status', 1);
 
         if ($request->hasHeader('zoneId')) {
             Log::info('aseel request has zoneId header');
@@ -37,6 +37,10 @@ class ReelsController extends Controller
             $reels->whereHas('store', function ($query) use ($request) {
                 $query->where('module_id', $request->query('module_id'));
             });
+        }
+
+        if ($request->has('influencer_id')) {
+            $reels->where('influencer_id', $request->influencer_id);
         }
 
         $reels = $reels->orderBy('id', 'desc')->paginate(15);
@@ -75,7 +79,7 @@ class ReelsController extends Controller
     // last 5 reels thumbnails
     public function getReelsThumbnails(Request $request)
     {
-        $reels = BfoReelsModel::whereNotNull('item_ids');
+        $reels = BfoReelsModel::whereNotNull('item_ids')->where('status', 1);
 
         if ($request->hasHeader('zoneId')) {
             Log::info('aseel request has zoneId header');

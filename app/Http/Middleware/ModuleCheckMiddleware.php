@@ -49,6 +49,7 @@ class ModuleCheckMiddleware
         if (!$module) {
             /// added by aseel
             Config::set('module.current_module_data', null);
+
             /// commented by Aseel
             // $errors = [];
             // array_push($errors, ['code' => 'moduleId', 'message' => translate('messages.not_found')]);

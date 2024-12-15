@@ -22,7 +22,6 @@ class BFOController extends Controller
         protected BfoReelsService $bfoReelsService
     ) {}
 
-    // this function added by Aseel
     public function add_reel(Request $request)
     {
         Log::info('aseel , start');
@@ -57,6 +56,7 @@ class BFOController extends Controller
 
         $reel->item_ids = $request->input('item_ids');
         $reel->store_id = $request['vendor']->stores[0]->id;
+        $reel->status = 1; // active since it added by the vendor
 
         try {
             Log::info('aseel , try');
@@ -251,26 +251,26 @@ class BFOController extends Controller
     }
 
 
-    // idrive s2
+    // // idrive s2
 
-    public function idrive_upload()
-    {
-        $file = Storage::disk('idrive')->put('file3.txt', 'Hello, IDrive!');
+    // public function idrive_upload()
+    // {
+    //     $file = Storage::disk('idrive')->put('file3.txt', 'Hello, IDrive!');
 
-        return $file;
-    }
+    //     return $file;
+    // }
 
-    public function upload_video(Request $request)
-    {
-        $video = $request->file('video');
-        $fileName = $video->getClientOriginalName();
+    // public function upload_video(Request $request)
+    // {
+    //     $video = $request->file('video');
+    //     $fileName = $video->getClientOriginalName();
 
-        $file = Storage::disk('idrive')->putFileAs('/', $video, $fileName);
+    //     $file = Storage::disk('idrive')->putFileAs('/', $video, $fileName);
 
-        $publicURL = 'talabati-bucket.a2l8.ch.idrivee2-18.com';
+    //     $publicURL = 'talabati-bucket.a2l8.ch.idrivee2-18.com';
 
-        $fileGet = Storage::disk('idrive')->get($fileName);
+    //     $fileGet = Storage::disk('idrive')->get($fileName);
 
-        return $fileGet;
-    }
+    //     return $fileGet;
+    // }
 }
