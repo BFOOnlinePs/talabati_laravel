@@ -27,7 +27,7 @@ class InfluencerController extends Controller
             ->makeHidden(['storage']);
 
         return response()->json([
-            'success' => true,
+            'status' => true,
             'influencers' => $influencers
         ], 200);
     }
@@ -140,5 +140,29 @@ class InfluencerController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function getInfluencerReels(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'influencer_id' => 'required|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validator->errors()->first()
+            ], 403);
+        }
+
+        $influencer_id = $request->input('influencer_id');
+        $reels = BfoReelsModel::where('influencer_id', $influencer_id)
+            ->where('status', 1)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json([
+            'status' => true,
+            'reels' => $reels
+        ]);
     }
 }

@@ -56,6 +56,7 @@ class BFOController extends Controller
 
         $reel->item_ids = $request->input('item_ids');
         $reel->store_id = $request['vendor']->stores[0]->id;
+        $reel->status = 1; // active since it added by the vendor
 
         try {
             Log::info('aseel , try');

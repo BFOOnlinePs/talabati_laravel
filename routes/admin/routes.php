@@ -58,6 +58,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin.'], function () {
         Route::get('get-influencers', [InfluencerController::class, 'getInfluencers']);
         Route::post('influencer-request', [InfluencerController::class, 'influencerRequest']);
         Route::post('add-reel', [InfluencerController::class, 'addReel']);
+        Route::post('get-influencer-reels', [InfluencerController::class, 'getInfluencerReels']); // all zones
     });
 
     Route::group(['prefix' => 'bfo'], function () {
